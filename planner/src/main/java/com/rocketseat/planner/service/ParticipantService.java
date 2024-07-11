@@ -2,6 +2,7 @@ package com.rocketseat.planner.service;
 
 import com.rocketseat.planner.entity.Participant;
 import com.rocketseat.planner.entity.Trip;
+import com.rocketseat.planner.entity.response.ParticipantDataResponse;
 import com.rocketseat.planner.entity.response.ParticipantInviteResponse;
 import com.rocketseat.planner.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class ParticipantService {
         this.participantRepository.save(participant);
 
         return new ParticipantInviteResponse(participant.getId());
+    }
+
+    public List<ParticipantDataResponse> getAllParticipantsFromEventId(UUID id) {
+        return participantRepository.findByTripId(id);
     }
 
     public void triggerConfirmationEmailToParticipants(UUID tripID){}

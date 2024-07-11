@@ -1,9 +1,11 @@
 package com.rocketseat.planner.controller;
 
+import com.rocketseat.planner.entity.Participant;
 import com.rocketseat.planner.entity.Trip;
 import com.rocketseat.planner.entity.request.ParticipantRequestPayload;
 import com.rocketseat.planner.entity.request.TripPutRequestPayload;
 import com.rocketseat.planner.entity.request.TripRequestPayload;
+import com.rocketseat.planner.entity.response.ParticipantDataResponse;
 import com.rocketseat.planner.entity.response.ParticipantInviteResponse;
 import com.rocketseat.planner.entity.response.TripCreateResponse;
 import com.rocketseat.planner.repository.TripRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +37,11 @@ public class TripController {
         this.participantService.registerParticipantsToEvent(payload.emails_to_invite(), trip);
 
         return ResponseEntity.ok(new TripCreateResponse(trip.getId()));
+    }
+
+    @GetMapping("/{id}/participants")
+    public ResponseEntity<List<ParticipantDataResponse>> getAllParticipants(@PathVariable UUID id) {
+        return ResponseEntity.ok(participantService.getAllParticipantsFromEventId(id));
     }
 
     @GetMapping("/{id}")

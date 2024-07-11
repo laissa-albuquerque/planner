@@ -18,11 +18,6 @@ public class ParticipantController {
     @Autowired
     private ParticipantRepository participantRepository;
 
-    @GetMapping("/{id}/participants")
-    public List<Participant> getAllParticipants(@PathVariable UUID id) {
-        return participantRepository.findByTripId(id);
-    }
-
     @PostMapping("/{id}/confirm")
     public ResponseEntity<Participant> confirmTripParticipant(@PathVariable UUID id, @RequestBody ParticipantRequestPayload payload) {
         Optional<Participant> participant = this.participantRepository.findById(id);
