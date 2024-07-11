@@ -1,21 +1,38 @@
 package com.rocketseat.planner.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "participants")
 public class Participant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Column(name = "participant_name", nullable = false)
+    private String participantName;
+    @Column(name = "participant_email", nullable = false)
+    private String participantEmail;
     @Column(name = "is_confirmed", nullable = false)
     private Boolean isConfirmed;
-    @Column(name = "owner_name", nullable = false)
-    private String participantName;
-    @Column(name = "owner_email", nullable = false)
-    private String participantEmail;
+    @ManyToOne
+    @JoinColumn(name = "trip_id", nullable = false)
+    private Trip trip;
+
+    public Participant(String participantEmail, Trip trip) {
+        this.isConfirmed = false;
+        this.participantName = "";
+        this.participantEmail = participantEmail;
+        this.trip = trip;
+    }
 }
